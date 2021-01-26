@@ -31,7 +31,7 @@ func (t *task) Init() (err error) {
 	}
 	t.collector, err = tail.TailFile(t.path, cfg)
 	if err != nil {
-		logrus.Error("collect: create collect agent for path: %s failed, err: %v", err)
+		logrus.Errorf("collect: create collect agent for path: %s failed, err: %v\n",t.path, err)
 		return
 	}
 	// create a goroutine watching new config

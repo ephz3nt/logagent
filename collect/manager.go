@@ -30,7 +30,7 @@ func (m *manage) watch() {
 			t := newTask(conf.Topic, conf.Path) // 创建一个收集任务
 			err := t.Init()
 			if err != nil {
-				logrus.Error("collect: init collect agent for path: %s failed, err: %v", t.path, err)
+				logrus.Errorf("collect: init collect agent for path: %s failed, err: %v\n", t.path, err)
 				continue
 			}
 			// 收集日志
@@ -75,7 +75,7 @@ func Init(etcdConf []common.CollectEntry) (err error) {
 		t := newTask(conf.Topic, conf.Path) // 创建一个收集任务
 		err = t.Init()
 		if err != nil {
-			logrus.Error("collect: init collect agent for path: %s failed, err: %v", t.path, err)
+			logrus.Errorf("collect: init collect agent for path: %s failed, err: %v\n", t.path, err)
 			continue
 		}
 		// 收集日志
