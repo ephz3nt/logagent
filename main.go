@@ -5,6 +5,7 @@ import (
 	"github.com/go-ini/ini"
 	"github.com/sirupsen/logrus"
 	"logagent/collect"
+	"logagent/common"
 	"logagent/etcd"
 	"logagent/kafka"
 )
@@ -35,9 +36,15 @@ func run() {
 }
 
 func main() {
+	// get local ip
+	ip, err := common.GetOutboundIP()
+	if err != nil {
+		logrus.Error("get local ip failed, err: ", err)
+		return
+	}
 	// load config
 	config := new(Config)
-	err := ini.MapTo(config, "config/config.ini")
+	err = ini.MapTo(config, "config/config.ini")
 	if err != nil {
 		logrus.Error("load config failed, err: ", err)
 		return
@@ -58,7 +65,9 @@ func main() {
 		return
 	}
 	logrus.Info("init etcd success")
-	etcdConf, err := etcd.GetConf(config.EtcdConfig.CollectKey)
+	collectKey := fmt.Sprintf(config.EtcdConfig.CollectKey, ip)
+	fmt.Println(collectKey)
+	etcdConf, err := etcd.GetConf(collectKey)
 	if err != nil {
 		logrus.Errorf("get config from etcd failed: %v\n", err)
 		return

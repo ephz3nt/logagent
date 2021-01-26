@@ -42,7 +42,7 @@ func (t *task) run() (err error) {
 	for {
 		select {
 		case <-t.ctx.Done():
-			logrus.Infof("collector: %s is stopped.", t.path)
+			logrus.Infof("collector: %v is stopped.\n", t.path)
 			return
 		case line, ok := <-t.collector.Lines:
 			if !ok {
